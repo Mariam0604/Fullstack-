@@ -1,13 +1,31 @@
 <template>
   <div>
-    <router-link :to="{ name: 'Create' }" class="button is-success mt-5"
-      >Add New</router-link
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <h2 class="title is-3">{{ categoryName }} - Products</h2>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <router-link :to="{ name: 'Home' }" class="button is-light">
+            Back to Categories
+          </router-link>
+        </div>
+      </div>
+    </div>
+
+    <router-link 
+      :to="{ name: 'CreateProduct', params: { categoryId: categoryId } }" 
+      class="button is-success mt-3 mb-3"
     >
+      Add New Product
+    </router-link>
+
     <table class="table is-striped is-bordered mt-2 is-fullwidth">
       <thead>
         <tr>
           <th>Product Name</th>
-          <th>Category</th>
           <th>Price</th>
           <th>Quantity</th>
           <th class="has-text-centered">Actions</th>
@@ -16,7 +34,6 @@
       <tbody>
         <tr v-for="item in items" :key="item.product_id" :class="getRowClass(item.product_quantity)">
           <td>{{ item.product_name }}</td>
-          <td>{{ item.category_name || 'Uncategorized' }}</td>
           <td>${{ item.product_price }}</td>
           <td>
             <span :class="getStockClass(item.product_quantity)">
@@ -41,40 +58,46 @@
         </tr>
       </tbody>
     </table>
+
+    <div v-if="items.length === 0" class="has-text-centered mt-5">
+      <p class="subtitle">No products in this category yet. Add your first product!</p>
+    </div>
   </div>
 </template>
 
 <script>
-//import axios
 import axios from "axios";
 
 export default {
   data() {
     return {
       items: [],
+      categoryId: this.$route.params.categoryId,
+      categoryName: this.$route.params.categoryName,
     };
   },
   created() {
     this.getProducts();
   },
   methods: {
-    //get all products
     async getProducts() {
       try {
-        const response = await axios.get("http://localhost:5000/products");
+        const response = await axios.get(
+          `http://localhost:5000/products/category/${this.categoryId}`
+        );
         this.items = response.data;
-        console.log(this.items);
       } catch (err) {
         console.log(err);
       }
     },
-    //delete product
     async deleteProduct(id) {
-      try {
-        await axios.delete(`http://localhost:5000/products/${id}`);
-        this.getProducts();
-      } catch (err) {
-        console.log(err);
+      if (confirm("Are you sure you want to delete this product?")) {
+        try {
+          await axios.delete(`http://localhost:5000/products/${id}`);
+          this.getProducts();
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
     //get row class based on stock quantity
@@ -131,3 +154,4 @@ tr {
   }
 }
 </style>
+

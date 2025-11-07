@@ -2,14 +2,27 @@
 import {
     getProducts,
     getProductById,
+    getProductsByCategory,
     insertProduct,
     updateProductById,
     deleteProductById,
+    getLowStockProducts,
   } from "../Models/ProductModels.js";
   
   //get all products
   export const showProducts = (req, res) => {
     getProducts((err, results) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json(results);
+      }
+    });
+  };
+
+  //get products by category
+  export const showProductsByCategory = (req, res) => {
+    getProductsByCategory(req.params.categoryId, (err, results) => {
       if (err) {
         res.send(err);
       } else {
@@ -58,6 +71,17 @@ import {
   export const deleteProduct = (req, res) => {
     const id = req.params.id;
     deleteProductById(id, (err, results) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json(results);
+      }
+    });
+  };
+
+  // Get Low Stock Products
+  export const showLowStockProducts = (req, res) => {
+    getLowStockProducts((err, results) => {
       if (err) {
         res.send(err);
       } else {
