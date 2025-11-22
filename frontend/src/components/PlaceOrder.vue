@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../utils/axios";
 
 export default {
   data() {
@@ -97,7 +97,7 @@ export default {
   methods: {
     async getProducts() {
       try {
-        const response = await axios.get("http://localhost:5000/products");
+        const response = await axios.get("/products");
         this.products = response.data.filter(p => p.product_quantity > 0);
       } catch (err) {
         console.log(err);
@@ -121,7 +121,7 @@ export default {
       }
 
       try {
-        await axios.post("http://localhost:5000/orders", {
+        await axios.post("/orders", {
           product_id: this.selectedProductId,
           quantity_ordered: this.quantityOrdered,
           customer_name: this.customerName || "Walk-in Customer"

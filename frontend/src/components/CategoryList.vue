@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../utils/axios";
 
 export default {
   data() {
@@ -56,7 +56,7 @@ export default {
   methods: {
     async getCategories() {
       try {
-        const response = await axios.get("http://localhost:5000/categories");
+        const response = await axios.get("/categories");
         this.categories = response.data;
       } catch (err) {
         console.log(err);
@@ -65,7 +65,7 @@ export default {
     async deleteCategory(id) {
       if (confirm("Are you sure you want to delete this category? All products in this category will remain but will be uncategorized.")) {
         try {
-          await axios.delete(`http://localhost:5000/categories/${id}`);
+          await axios.delete(`/categories/${id}`);
           this.getCategories();
         } catch (err) {
           console.log(err);

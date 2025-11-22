@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../utils/axios";
 
 export default {
   data() {
@@ -92,7 +92,7 @@ export default {
   methods: {
     async getOrders() {
       try {
-        const response = await axios.get("http://localhost:5000/orders");
+        const response = await axios.get("/orders");
         this.orders = response.data;
       } catch (err) {
         console.log(err);
@@ -100,7 +100,7 @@ export default {
     },
     async getStats() {
       try {
-        const response = await axios.get("http://localhost:5000/orders/stats");
+        const response = await axios.get("/orders/stats");
         this.stats = response.data;
       } catch (err) {
         console.log(err);
@@ -109,7 +109,7 @@ export default {
     async deleteOrder(id) {
       if (confirm("Are you sure you want to delete this order? This will not restore the stock.")) {
         try {
-          await axios.delete(`http://localhost:5000/orders/${id}`);
+          await axios.delete(`/orders/${id}`);
           this.getOrders();
           this.getStats();
         } catch (err) {

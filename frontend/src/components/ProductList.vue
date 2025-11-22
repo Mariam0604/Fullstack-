@@ -20,8 +20,8 @@
           <td>${{ item.product_price }}</td>
           <td>
             <span :class="getStockClass(item.product_quantity)">
-              {{ item.product_quantity }}
-              <span v-if="item.product_quantity <= 5" class="tag is-danger is-light ml-2">Low Stock</span>
+              <strong class="quantity-number">{{ item.product_quantity }}</strong>
+              <span v-if="item.product_quantity <= 5" class="tag is-danger is-light ml-2">⚠️ Low Stock</span>
             </span>
           </td>
           <td class="has-text-centered">
@@ -46,7 +46,7 @@
 
 <script>
 //import axios
-import axios from "axios";
+import axios from "../utils/axios";
 
 export default {
   data() {
@@ -61,7 +61,7 @@ export default {
     //get all products
     async getProducts() {
       try {
-        const response = await axios.get("http://localhost:5000/products");
+        const response = await axios.get("/products");
         this.items = response.data;
         console.log(this.items);
       } catch (err) {
@@ -71,7 +71,7 @@ export default {
     //delete product
     async deleteProduct(id) {
       try {
-        await axios.delete(`http://localhost:5000/products/${id}`);
+        await axios.delete(`/products/${id}`);
         this.getProducts();
       } catch (err) {
         console.log(err);
@@ -89,11 +89,11 @@ export default {
     //get stock class for quantity display
     getStockClass(quantity) {
       if (quantity === 0) {
-        return 'has-text-danger has-text-weight-bold';
+        return 'has-text-danger has-text-weight-bold stock-critical';
       } else if (quantity <= 5) {
-        return 'has-text-danger has-text-weight-semibold';
+        return 'has-text-danger has-text-weight-bold stock-low';
       }
-      return '';
+      return 'stock-normal';
     },
   },
 };
@@ -116,18 +116,69 @@ tr {
   transition: background-color 0.3s ease;
 }
 
+/* Enhanced quantity number styling */
+.quantity-number {
+  font-size: 1.2em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* Stock level specific styling */
+.stock-critical .quantity-number {
+  background-color: #dc3545;
+  color: white;
+  animation: criticalBlink 1.5s infinite;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+}
+
+.stock-low .quantity-number {
+  background-color: #dc3545;
+  color: white;
+  animation: lowStockPulse 2s infinite;
+  box-shadow: 0 0 8px rgba(220, 53, 69, 0.4);
+}
+
+.stock-normal .quantity-number {
+  background-color: #28a745;
+  color: white;
+}
+
 /* Low stock tag styling */
 .tag.is-danger.is-light {
   font-weight: 600;
   animation: pulse 2s infinite;
 }
 
+/* Animations */
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
   }
   50% {
     opacity: 0.7;
+  }
+}
+
+@keyframes criticalBlink {
+  0%, 50% {
+    background-color: #dc3545;
+  }
+  51%, 100% {
+    background-color: #ff1744;
+  }
+}
+
+@keyframes lowStockPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(220, 53, 69, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(220, 53, 69, 0.7);
   }
 }
 </style>

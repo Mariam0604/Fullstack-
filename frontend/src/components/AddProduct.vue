@@ -66,7 +66,7 @@
 
 <script>
 //import axios
-import axios from "axios";
+import axios from "../utils/axios";
 
 export default {
   data() {
@@ -89,7 +89,7 @@ export default {
     //get all categories
     async getCategories() {
       try {
-        const response = await axios.get("http://localhost:5000/categories");
+        const response = await axios.get("/categories");
         this.categories = response.data;
       } catch (err) {
         console.log(err);
@@ -103,7 +103,7 @@ export default {
       }
 
       try {
-        await axios.post("http://localhost:5000/products", {
+        await axios.post("/products", {
           product_name: this.productName,
           product_price: this.productPrice,
           product_quantity: this.productQuantity,

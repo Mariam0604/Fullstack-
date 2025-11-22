@@ -66,7 +66,7 @@
   
   <script>
   //import axios
-  import axios from "axios";
+  import axios from "../utils/axios";
   
   export default {
     data() {
@@ -86,7 +86,7 @@
       //get all categories
       async getCategories() {
         try {
-          const response = await axios.get("http://localhost:5000/categories");
+          const response = await axios.get("/categories");
           this.categories = response.data;
         } catch (err) {
           console.log(err);
@@ -96,7 +96,7 @@
       async getProductById() {
         try {
           const response = await axios.get(
-            `http://localhost:5000/products/${this.$route.params.id}`
+            `/products/${this.$route.params.id}`
           );
           this.productName = response.data.product_name;
           this.productPrice = response.data.product_price;
@@ -116,7 +116,7 @@
 
         try {
           await axios.put(
-            `http://localhost:5000/products/${this.$route.params.id}`,
+            `/products/${this.$route.params.id}`,
             {
               product_name: this.productName,
               product_price: this.productPrice,

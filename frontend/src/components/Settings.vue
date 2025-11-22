@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../utils/axios";
 
 export default {
   data() {
@@ -72,7 +72,7 @@ export default {
   methods: {
     async loadSettings() {
       try {
-        const response = await axios.get("http://localhost:5000/settings/object");
+        const response = await axios.get("/settings/object");
         this.threshold = parseInt(response.data.low_stock_threshold) || 5;
         this.emailEnabled = response.data.email_enabled === 'true';
       } catch (err) {
@@ -85,7 +85,7 @@ export default {
       this.message = '';
       
       try {
-        await axios.post("http://localhost:5000/settings/bulk", {
+        await axios.post("/settings/bulk", {
           settings: [
             { key: 'low_stock_threshold', value: this.threshold.toString() },
             { key: 'email_enabled', value: this.emailEnabled ? 'true' : 'false' }
@@ -111,7 +111,7 @@ export default {
 
       try {
         // Just save settings and show message
-        await axios.post("http://localhost:5000/settings/bulk", {
+        await axios.post("/settings/bulk", {
           settings: [
             { key: 'low_stock_threshold', value: this.threshold.toString() },
             { key: 'email_enabled', value: this.emailEnabled ? 'true' : 'false' }

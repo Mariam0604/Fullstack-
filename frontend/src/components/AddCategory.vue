@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../utils/axios";
 
 export default {
   data() {
@@ -39,7 +39,7 @@ export default {
       }
       
       try {
-        await axios.post("http://localhost:5000/categories", {
+        await axios.post("/categories", {
           category_name: this.categoryName,
         });
         this.categoryName = "";
