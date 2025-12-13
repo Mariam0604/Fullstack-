@@ -17,7 +17,7 @@
           <span class="icon">
             <i class="fas fa-shopping-cart"></i>
           </span>
-          <span>Place Order</span>
+          <span>Take order</span>
         </router-link>
         <router-link :to="{ name: 'OrderHistory' }" class="button is-info is-medium">
           <span class="icon">
@@ -37,7 +37,7 @@
       
       <div class="has-text-centered mt-5">
         <router-link :to="{ name: 'Index' }" class="button is-link is-light">
-          View All Products
+          View all remaining products
         </router-link>
       </div>
     </div>

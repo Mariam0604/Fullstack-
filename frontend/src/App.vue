@@ -27,7 +27,7 @@
             <router-link to="/all-products" class="navbar-item">All Products</router-link>
             <router-link to="/create" class="navbar-item">Add Product</router-link>
             <router-link to="/add-category" class="navbar-item">Add Category</router-link>
-            <router-link to="/place-order" class="navbar-item">Place Order</router-link>
+            <router-link to="/place-order" class="navbar-item">Take order</router-link>
             <router-link to="/order-history" class="navbar-item">Order History</router-link>
             <router-link to="/settings" class="navbar-item">Settings</router-link>
           </div>

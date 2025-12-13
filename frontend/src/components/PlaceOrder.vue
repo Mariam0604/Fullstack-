@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="title is-4">Place Order</h2>
+    <h2 class="title is-4">Take order</h2>
     
     <div class="box">
       <div class="field">
@@ -68,7 +68,7 @@
           @click="placeOrder"
           :disabled="!selectedProductId || !quantityOrdered || quantityOrdered < 1"
         >
-          PLACE ORDER
+          TAKE ORDER
         </button>
         <router-link :to="{ name: 'Home' }" class="button is-light ml-2">
           CANCEL
